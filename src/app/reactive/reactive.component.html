@@ -37,7 +37,38 @@
                     </label>
                 </div>
 
-                <button class="btn btn-primary" type="submit">Submit</button>
+                <button class="btn btn-primary" type="submit" [disabled]="!signupForm.valid">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-8 col-sm-offset-1 col-md-offset-2">
+            <form [formGroup]="projectForm" (ngSubmit)="projectSubmit()">
+                <div class="form-group">
+                    <label for="projectName">Project Name</label>
+                    <input type="text" class="form-control" id="projectName" formControlName="projectName">
+                    <div *ngIf="!projectForm.get('projectName').valid && projectForm.get('projectName').touched">
+                        <span class="help-block" *ngIf="projectForm.get('projectName').errors['required']">Enter Project Name.**</span>
+                        <span class="help-block" *ngIf="projectForm.get('projectName').errors['forbidenProject']">Enter different project name.**</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" class="form-control" formControlName="email">
+                    <span *ngIf="!projectForm.get('email').valid && projectForm.get('email').touched" class="help-block">Enter an email.**</span>
+                </div>
+                <div class="form-group">
+                    <label for="projectStatus">Project Status</label>
+                    <select class="form-control" id="projectStatus" formControlName="projectStatus">
+                        <option value="stable">Stable</option>
+                        <option value="Critical">Critcal</option>
+                        <option value="Finished">Finished</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" [disabled]="!projectForm.valid">Submit</button>
             </form>
         </div>
     </div>

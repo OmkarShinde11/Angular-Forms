@@ -13,7 +13,9 @@ export class ReactiveComponent implements OnInit {
   constructor() { }
   signupForm:FormGroup;
   forbiddenUsername=['Chris','Anna'];
-  forbiddenEmails=['omkarshinde11122001@gmail.com','sid64325@gmail.com']
+  forbiddenEmails=['omkarshinde11122001@gmail.com','sid64325@gmail.com'];
+  projectForm:FormGroup;
+  forbiddenProjectName=['Test']
   
   ngOnInit(): void {
     this.signupForm=new FormGroup({
@@ -25,10 +27,16 @@ export class ReactiveComponent implements OnInit {
       hobbies:new FormArray([]),
     })
 
+    this.projectForm=new FormGroup({
+      projectName:new FormControl(null,[Validators.required],this.forbidProjects),
+      email:new FormControl(null,Validators.required),
+      projectStatus:new FormControl(null,Validators.required),
+    })
+
     this.signupForm.setValue({
       userdata:{
         username:'Omkar',
-        email:'omkarshinde11122001@gmail.com'
+        email:'Omkar.Shinde@Inquizity.com'
       },
       gender:'Male',
       hobbies:[],
@@ -79,4 +87,30 @@ export class ReactiveComponent implements OnInit {
     })
     return promise
   }
+
+  projectSubmit(){
+    console.log(this.projectForm)
+  }
+
+  forbiddenProject(control:FormControl) :{[s:string]:boolean}{
+    if(this.forbiddenProjectName.indexOf(control.value)!== -1){
+      return({'forbidenProject':true})
+    }
+    return (null)
+  }
+  
+  forbidProjects(control:FormControl):Promise<any>|Observable<any>{
+    const promise=new Promise((resolve,reject)=>{
+      setTimeout(()=>{
+        if(control.value ==='Test'){
+          resolve({'forBidProject':true})
+        }
+        else{
+          resolve(null)
+        }
+      },1500)
+    })
+     return promise
+  }
 }
+
